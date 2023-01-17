@@ -24,6 +24,6 @@ router.delete("/:id", deleteTask);
 
 //UPDATE task
 
-router.patch("/:id", updateTask);
+router.put("/:id", updateTask);
 
 module.exports = router;

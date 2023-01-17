@@ -6,7 +6,7 @@ function TaskForm({ task, setTask }) {
   const dispatch = useDispatch();
   const taskState = useSelector((state) => state.tasks); //grabs state from the index js tasks:taskReducer
   console.log(taskState);
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     if (task._id) {
@@ -22,7 +22,7 @@ function TaskForm({ task, setTask }) {
     });
   };
 
-  //dd
+  //
   return (
     <section className="form">
       <form onSubmit={onSubmit}>

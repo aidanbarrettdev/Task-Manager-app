@@ -40,7 +40,7 @@ export const updateTask = createAsyncThunk(
   async (task, { rejectWithValue }) => {
     try {
       const { _id, title, body } = task;
-      const response = await axios.patch(API_URL + _id, { title, body });
+      const response = await axios.put(API_URL + _id, { title, body });
       return response.data;
     } catch (error) {
       console.log(error);
@@ -49,13 +49,23 @@ export const updateTask = createAsyncThunk(
   }
 );
 
+export const deleteTask = createAsyncThunk(
+  "tasks/delete",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(API_URL + id);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
 export const taskSlice = createSlice({
   name: "task",
   initialState,
-  reducers: {
-    reset: (state) => initialState,
-  },
-
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(createTask.pending, (state) => {
@@ -95,23 +105,22 @@ export const taskSlice = createSlice({
       .addCase(updateTask.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
+      })
+      .addCase(deleteTask.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.tasks = state.tasks.filter(
+          (task) => task._id !== action.payload._id
+        );
+      })
+      .addCase(deleteTask.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
       });
-    //       .addCase(deleteTask.pending, (state) => {
-    //         state.isLoading = true;
-    //       })
-    //       .addCase(deleteTask.fulfilled, (state, action) => {
-    //         state.isLoading = false;
-    //         state.isSuccess = true;
-    //         state.tasks = state.tasks.filter(
-    //           (task) => task._id !== action.payload.id
-    //         );
-    //       })
-    // //       .addCase(deleteTask.rejected, (state, action) => {
-    //         state.isLoading = false;
-    //         state.isError = true;
-    //       });
   },
 });
 
-export const { reset } = taskSlice.actions;
 export default taskSlice.reducer;

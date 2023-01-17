@@ -48,13 +48,14 @@ const updateTask = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "not valid id" });
   }
-  //spread the ...req.body ass second arg, so any or all of the fields that have been changed will update
-  const task = await Task.findOneAndUpdate({ _id: id }, { ...req.body });
+  const task = await Task.findOneAndUpdate({ _id: id }, { ...req.body }); //deletes the mongo id if matches with param id
+
   if (!task) {
     return res.status(404).json({ error: "No workout found" });
   }
   res.status(200).json(task);
 };
+
 module.exports = {
   createTask,
   getAllTasks,
