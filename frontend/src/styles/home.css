@@ -4,3 +4,10 @@
   margin: 20px;
   justify-content: space-between;
 }
+
+@media screen and (max-width: 750px) {
+  .home {
+    display: flex;
+    flex-direction: column;
+  }
+}

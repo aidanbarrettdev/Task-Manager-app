@@ -43,23 +43,9 @@ const deleteTask = async (req, res) => {
   res.status(200).json(task);
 };
 
-const updateTask = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "not valid id" });
-  }
-  const task = await Task.findOneAndUpdate({ _id: id }, { ...req.body }); //deletes the mongo id if matches with param id
-
-  if (!task) {
-    return res.status(404).json({ error: "No workout found" });
-  }
-  res.status(200).json(task);
-};
-
 module.exports = {
   createTask,
   getAllTasks,
   getTask,
   deleteTask,
-  updateTask,
 };

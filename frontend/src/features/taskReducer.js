@@ -15,7 +15,7 @@ export const createTask = createAsyncThunk(
   async (task, { rejectWithValue }) => {
     try {
       const response = await axios.post(API_URL, task);
-      return response.data; //todo available in the data property form axios
+      return response.data; //todo available in the data property from axios
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.data);
@@ -27,20 +27,6 @@ export const getTasks = createAsyncThunk(
   async (id = null, { rejectWithValue }) => {
     try {
       const response = await axios.get(API_URL);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
-export const updateTask = createAsyncThunk(
-  "tasks/updateTask",
-  async (task, { rejectWithValue }) => {
-    try {
-      const { _id, title, body } = task;
-      const response = await axios.put(API_URL + _id, { title, body });
       return response.data;
     } catch (error) {
       console.log(error);
@@ -70,48 +56,46 @@ export const taskSlice = createSlice({
     builder
       .addCase(createTask.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(createTask.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.tasks.push(action.payload);
       })
       .addCase(createTask.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
       })
       .addCase(getTasks.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(getTasks.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.tasks = action.payload;
       })
       .addCase(getTasks.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
       })
-      .addCase(updateTask.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(updateTask.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.tasks = state.tasks.map((task) =>
-          task._id === action.payload._id ? action.payload : task
-        );
-      })
-      .addCase(updateTask.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-      })
+
       .addCase(deleteTask.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
+        state.isError = false;
       })
       .addCase(deleteTask.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.tasks = state.tasks.filter(
           (task) => task._id !== action.payload._id
         );
@@ -119,6 +103,7 @@ export const taskSlice = createSlice({
       .addCase(deleteTask.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
       });
   },
 });

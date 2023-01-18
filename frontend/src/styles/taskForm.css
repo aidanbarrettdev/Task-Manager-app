@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap");
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  max-width: 350px;
+  font-family: "Bree Serif", serif;
+}
+section {
+  border-right: 2px solid rgba(30, 28, 28, 0.132);
+}
+input {
+  width: 300px;
+  height: 20px;
+}
+textarea {
+  width: 300px;
+}
+label {
+  margin: 10px;
+  font-size: 20px;
+}
+
+.form-btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-submit {
+  background-color: rgb(18, 92, 92);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 30px;
+  font-weight: 100;
+}
+.error {
+  border: 2px solid red;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+@media screen and (max-width: 750px) {
+  section {
+    border-right: none;
+    border-bottom: 2px solid rgba(30, 28, 28, 0.132);
+  }
+}

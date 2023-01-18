@@ -1,21 +1,17 @@
 import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { createTask, updateTask } from "../features/taskReducer";
+import { createTask } from "../features/taskReducer";
+import "../styles/taskForm.css";
 function TaskForm({ task, setTask }) {
   const dispatch = useDispatch();
   const taskState = useSelector((state) => state.tasks); //grabs state from the index js tasks:taskReducer
-  console.log(taskState);
+
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (task._id) {
-      dispatch(updateTask(task));
-    } else {
-      dispatch(createTask(task));
-    }
+    dispatch(createTask(task));
 
-    //reset form
     setTask({
       title: "",
       body: "",
@@ -27,7 +23,7 @@ function TaskForm({ task, setTask }) {
     <section className="form">
       <form onSubmit={onSubmit}>
         <div className="form">
-          <h3>Create Task</h3>
+          <h3>CREATE TASK</h3>
           <label htmlFor="text">Title:</label>
           <input
             type="text"
@@ -37,7 +33,8 @@ function TaskForm({ task, setTask }) {
             onChange={(e) => setTask({ ...task, title: e.target.value })}
           />
           <label htmlFor="text">Content:</label>
-          <input
+          <textarea
+            rows="10"
             type="text"
             name="text"
             id="text"
@@ -48,10 +45,17 @@ function TaskForm({ task, setTask }) {
         <div className="form-btn-container">
           <button className="btn-submit" type="submit">
             {taskState.isLoading && <p>pending...</p>}
-            {task._id ? "UPDATE" : "ADD TASK"}
+            ADD TASK
           </button>
-          {taskState.isError && <p>There has been an Error</p>}
-          {taskState.isSuccess && <p>Task Added To List</p>}
+          {taskState.isError && (
+            <p className="error">
+              There has been an Error. Make sure to fill all the form fields
+              before adding a task.
+            </p>
+          )}
+          {taskState.isSuccess && (
+            <p className="material-symbols-outlined">add_task</p>
+          )}
         </div>
       </form>
     </section>
